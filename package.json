@@ -11,13 +11,13 @@
     "hot",
     "reload"
   ],
-  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
+  "homepage": "https://github.com/yolo2048/electron-react#readme",
   "bugs": {
-    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
+    "url": "https://github.com/yolo2048/electron-react/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
+    "url": "git+https://github.com/yolo2048/electron-react.git"
   },
   "contributors": [],
   "main": "./src/main/main.ts",
@@ -221,9 +221,6 @@
       "owner": "electron-react-boilerplate",
       "repo": "electron-react-boilerplate"
     }
-  },
-  "collective": {
-    "url": "https://opencollective.com/electron-react-boilerplate-594"
   },
   "devEngines": {
     "node": ">=14.x",

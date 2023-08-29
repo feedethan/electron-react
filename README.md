@@ -8,18 +8,6 @@
 
 <br>
 
-<div align="center">
-
-[![Build Status][github-actions-status]][github-actions-url]
-[![Github Tag][github-tag-image]][github-tag-url]
-[![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/Fjy3vfgy5q)
-
-[![OpenCollective](https://opencollective.com/electron-react-boilerplate-594/backers/badge.svg)](#backers)
-[![OpenCollective](https://opencollective.com/electron-react-boilerplate-594/sponsors/badge.svg)](#sponsors)
-[![StackOverflow][stackoverflow-img]][stackoverflow-url]
-
-</div>
-
 ## Install
 
 Clone the repo and install dependencies:
@@ -29,8 +17,6 @@ git clone --depth 1 --branch main https://github.com/electron-react-boilerplate/
 cd your-project-name
 npm install
 ```
-
-**Having issues installing? See our [debugging guide](https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues/400)**
 
 ## Starting Development
 
@@ -51,24 +37,6 @@ npm run package
 ## Docs
 
 See our [docs and guides here](https://electron-react-boilerplate.js.org/docs/installation)
-
-## Community
-
-Join our Discord: https://discord.gg/Fjy3vfgy5q
-
-## Sponsors
-
-<a href="https://palette.dev">
-  <img src=".erb/img/palette-sponsor-banner.svg" width="100%" />
-</a>
-
-## Donations
-
-**Donations will ensure the following:**
-
-- 🔨 Long term maintenance of the project
-- 🛣 Progress on the [roadmap](https://electron-react-boilerplate.js.org/docs/roadmap)
-- 🐛 Quick responses to bug reports and help requests
 
 ## 进程通信
 
