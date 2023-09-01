@@ -9,13 +9,13 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain, nativeTheme } from 'electron';
+import { app, BrowserWindow, shell, desktopCapturer } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 
-import DataStore from './store';
+import handleIPC from './ipc';
 import MenuBuilder from './menu';
-import { resolveHtmlPath, showNotification, handleFileOpen } from './util';
+import { resolveHtmlPath } from './util';
 
 class AppUpdater {
   constructor() {
@@ -25,6 +25,7 @@ class AppUpdater {
   }
 }
 
+// 放在全局，防止垃圾回收
 let mainWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
@@ -111,6 +112,20 @@ const createWindow = async () => {
   new AppUpdater();
 };
 
+const sendControlText = (channel: string, ...args) => {
+  // mainWindow?.webContents.send(channel, ...args);
+  desktopCapturer
+    .getSources({ types: ['window', 'screen'] })
+    .then(async (sources) => {
+      for (const source of sources) {
+        if (source.name === 'Electron') {
+          mainWindow.webContents.send('SET_SOURCE', source.id);
+          return;
+        }
+      }
+    });
+};
+
 /**
  * Add event listeners...
  */
@@ -127,44 +142,8 @@ app
   .whenReady()
   .then(() => {
     createWindow();
-    ipcMain.handle('dialog:openFile', handleFileOpen);
-    ipcMain.handle('dark-mode:toggle', () => {
-      if (nativeTheme.shouldUseDarkColors) {
-        nativeTheme.themeSource = 'light';
-      } else {
-        nativeTheme.themeSource = 'dark';
-      }
-      return nativeTheme.shouldUseDarkColors;
-    });
-    ipcMain.handle('dark-mode:system', () => {
-      nativeTheme.themeSource = 'system';
-    });
-    ipcMain.on('notification:success', (event, obj) => {
-      const [title, body] = obj;
-      showNotification(title, body);
-    });
-    ipcMain.on('ipc-example', async (event, arg) => {
-      const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-      console.log(`main get ipc-example=====${msgTemplate(arg)}`);
-      event.reply('ipc-example', msgTemplate('33333333333333333pong'));
-    });
 
-    ipcMain.on('ipc-send', (event, title) => {
-      console.log('main get ipc-send=======', title, event);
-      // 拿到 附加到消息发送方的 BrowserWindow 实例
-      const webContents = event.sender;
-      const win = BrowserWindow.fromWebContents(webContents);
-      win?.setTitle(title);
-      // 返回信息
-      event.reply('ipc-send', 'done!!!!!!!!!!!!');
-    });
-
-    ipcMain.on('electron-store-get', async (event, val) => {
-      event.returnValue = DataStore.get(val);
-    });
-    ipcMain.on('electron-store-set', async (event, key, val) => {
-      DataStore.set(key, val);
-    });
+    handleIPC();
 
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
@@ -173,3 +152,5 @@ app
     });
   })
   .catch(console.log);
+
+export { sendControlText, createWindow };

@@ -20,6 +20,29 @@ function showNotification(title: string, body: string) {
   }).show();
 }
 
+function handleTimerNoti() {
+  return new Promise((resolve, reject) => {
+    const noti = new Notification({
+      title: '任务结束',
+      body: '是否开始休息？',
+      actions: [
+        {
+          text: '开始休息',
+          type: 'button',
+        },
+      ],
+      closeButtonText: '继续工作',
+    });
+    noti.show();
+    noti.on('action', () => {
+      resolve('rest');
+    });
+    noti.on('close', () => {
+      resolve('work');
+    });
+  });
+}
+
 async function handleFileOpen() {
   const { canceled, filePaths } = await dialog.showOpenDialog({});
   if (!canceled) {
@@ -55,4 +78,10 @@ function createAppWindow(config: any, loadFile: string, debug: boolean) {
   return new AppWindow(config, loadFile, debug);
 }
 
-export { resolveHtmlPath, showNotification, handleFileOpen, createAppWindow };
+export {
+  resolveHtmlPath,
+  showNotification,
+  handleTimerNoti,
+  handleFileOpen,
+  createAppWindow,
+};

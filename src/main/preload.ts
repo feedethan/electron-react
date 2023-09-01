@@ -8,7 +8,12 @@ export type Channels =
   | 'dialog:openFile'
   | 'notification:success'
   | 'dark-mode:toggle'
-  | 'dark-mode:system';
+  | 'dark-mode:system'
+  | 'notification:timer'
+  | 'control:state-change'
+  | 'control:login'
+  | 'control:start'
+  | 'SET_SOURCE';
 
 const electronHandler = {
   ipcRenderer: {
